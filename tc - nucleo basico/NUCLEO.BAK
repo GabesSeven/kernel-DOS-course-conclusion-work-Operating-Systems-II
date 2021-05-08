@@ -1,0 +1,118 @@
+#include<system.h>
+#include<stdio.h>
+
+/*declaracao do tipo DESCRITOR_PROC*/
+typedef struct desc_p{
+        char nomep[35];
+        enum{ativo, terminado} estado;
+        PTR_DESC contexto;
+        struct desc_p *prox_desc;
+}DESCRITOR_PROC;
+
+/*declarcao do tipo PTR_DESC_PROC*/
+typedef DESCRITOR_PROC *PTR_DESC_PROC;
+/*aponta para o primeiro da fila*/
+PTR_DESC_PROC prim = NULL;
+/*corrotina do escalador*/
+PTR_DESC d_esc;
+
+void far criar_processo (void far (*end_proc)(), char nome_proc[]){
+	/*ciar dinamicamente um descritor do processo malloc*/
+	/*atribuir seu endereco a p_aux malloc retorna um endereco, colocar este no p_aux */
+	PTR_DESC_PROC p_aux, aux;
+
+	/*====FEITO PELO GABRIEL*/
+	p_aux = (PTR_DESC_PROC) malloc (sizeof(DESCRITOR_PROC));
+	/*criar BCP, alocar memoria dinamicamente e atribuir a uma vari vel*/
+	/*criar e associar um descritor e associa-lo ao BCP, preencher nome, entre outros...*/
+	if (p_aux == NULL)
+	   exit(1);
+	/*====*/
+
+	strcpy (p_aux->nomep, nome_proc);
+	p_aux->estado = ativo;
+	p_aux->contexto = cria_desc();
+	newprocess (end_proc , p_aux->contexto);
+
+	if (prim == NULL){
+		prim = p_aux;
+		prim->prox_desc = NULL;
+		return;
+	}		
+	/*inserir o BCP no final da fila circular apontada por prim*/
+        /*PTR_DESC_PROC aux = NULL;*/
+	aux = prim;
+	while(aux->prox_desc != NULL)
+		aux = aux->prox_desc;
+	aux->prox_desc = p_aux;
+	p_aux->prox_desc = prim;
+}
+
+/*====FEITO PELO GABRIEL*/
+/*criar funcao depois, encontrar o estado ativo, pula o ponteiro ate encontrar*/
+PTR_DESC_PROC far procura_prox_ativo(){
+	PTR_DESC_PROC aux;
+	aux = prim->prox_desc;
+	while(aux->estado != ativo && aux != prim){
+		if(aux->estado == ativo)
+			return aux;
+		aux = aux->prox_desc;
+	}
+	return NULL;
+} 
+/*====*/
+
+void far volta_dos(){
+	disable();
+	/*trocar endereco original da rotina do timer e sobrescreve*/
+	setvect(8, p_est->int_anterior);
+	enable();
+	exit(0);
+}
+
+void far escalador(){
+	p_est->p_origem = d_esc;
+	p_est->p_destino = prim->contexto; /*"conversao" do ptr_desc_proc para ptr_desc*/
+	p_est->num_vetor = 8;
+	while(1){
+		iotransfer();
+		disable(); /*inicio da regiao critica*/		
+		/*implementar uma funcao procurar_prox_ativo
+		que verifica o proximo BCP da lista que ainda esta ativo
+		e retorna o endereco de seu descritor*/
+		if((prim = procura_prox_ativo()) == NULL) volta_dos();
+		 	p_est->p_destino = prim->contexto; 
+		enable(); /*fim da regiao critica*/
+	}
+}
+
+/*no main do programa eu crio os processos, e chamo essa funcao*/
+void far dispara_sistema(){ 
+	PTR_DESC d_aux;
+	d_aux = cria_desc();
+	d_esc = cria_desc();
+	newprocess(escalador, d_esc);
+	transfer (d_aux, d_esc);
+}
+
+/*nesse TERMINA PROCESSO mesmo que o processo termine no meio do QUANTUM, o algoritmo espera o QUANTUM acabar para iniciar outro processo*/
+void far termina_processo(){
+	disable();
+	prim->estado = terminado;
+	enable();
+	while(1);
+}
+
+void far termina_processo1(){
+	PTR_DESC_PROC p_aux;
+	disable(); /*nao sofre interrupcao enquanto ta mudando as coisas*/
+	prim->estado = terminado;
+	p_aux = prim; /*procura o proximo processo para ser colocado, no caso dele terminar no meio do QUANTUM, o resto do QUANTUM coloca outro processo 
+	esse foi um meio para fazer o que foi descrito acima*/
+	if((prim = procura_prox_ativo()) == NULL) volta_dos();
+	transfer(p_aux->contexto, prim->contexto); 
+	/*transfer ja habilita transfer coloca para um novo processo, se o enable estiver depois do transfer, o enable nunca será executado
+	transfer passa o controle para outro processo */
+	/*nao escrevemos um enable no final porque o transfer ja possui um*/
+} 
+

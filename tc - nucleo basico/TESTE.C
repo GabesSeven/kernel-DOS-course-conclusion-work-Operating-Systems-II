@@ -1,0 +1,41 @@
+#include<nucleo.h>
+#include<stdio.h>
+void far processo1(){
+	int i=0;
+	while (i<10000){
+		printf("1");
+		i++;
+	}
+	termina_processo1();
+}
+void far processo2(){
+	int i=0;
+	while (i<10000){
+		printf("2");
+		i++;
+	}
+	termina_processo1();
+}
+void far processo3(){
+	int i=0;
+	while (i<10000){
+		printf("3");
+		i++;
+	}
+	termina_processo1();
+}
+void far processo4(){
+	int i=0;
+	while (i<10000){
+		printf("4");
+		i++;
+	}
+	termina_processo1();
+}
+main(){
+	criar_processo(processo1, "p1");
+	criar_processo(processo2, "p2");
+	criar_processo(processo3, "p3");
+	criar_processo(processo4, "p4");
+	dispara_sistema();
+}

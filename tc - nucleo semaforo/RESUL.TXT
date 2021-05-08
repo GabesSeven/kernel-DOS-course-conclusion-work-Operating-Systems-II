@@ -1,0 +1,40 @@
+produtor1inseriu mesagem 0
+produtor1inseriu mesagem 1
+produtor1inseriu mesagem 2
+produtor1inseriu mesagem 3
+produtor1inseriu mesagem 4
+produtor1inseriu mesagem 5
+consumidor1 retirou mesagem 0
+consumidor1 retirou mesagem 1
+consumidor1 retirou mesagem 2
+consumidor1 retirou mesagem 3
+consumidor1 retirou mesagem 4
+consumidor1 retirou mesagem 5
+produtor1inseriu mesagem 6
+produtor1inseriu mesagem 7
+produtor1inseriu mesagem 8
+produtor1inseriu mesagem 9
+produtor2inseriu mesagem 10
+produtor2inseriu mesagem 11
+consumidor1 retirou mesagem 6
+consumidor1 retirou mesagem 7
+consumidor1 retirou mesagem 8
+consumidor1 retirou mesagem 9
+consumidor2 retirou mesagem 10
+consumidor2 retirou mesagem 11
+produtor2inseriu mesagem 12
+produtor2inseriu mesagem 13
+produtor2inseriu mesagem 14
+produtor2inseriu mesagem 15
+produtor2inseriu mesagem 16
+consumidor2 retirou mesagem 12
+consumidor2 retirou mesagem 14
+consumidor2 retirou mesagem 14
+consumidor2 retirou mesagem 15
+consumidor2 retirou mesagem 16
+produtor2inseriu mesagem 17
+produtor2inseriu mesagem 18
+produtor2inseriu mesagem 19
+consumidor2 retirou mesagem 17
+consumidor2 retirou mesagem 18
+consumidor2 retirou mesagem 19
