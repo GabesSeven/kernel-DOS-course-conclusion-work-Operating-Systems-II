@@ -23,5 +23,5 @@ You can [access the project's source code](https://github.com/GabesSeven/kernel-
 
 ## 🧑‍💻 Developer
 
-| [<img src="https://avatars.githubusercontent.com/u/37443722?v=4" width=115><br><sub>Gabriel Ferreira</sub>](https://github.com/GabesSeven)
+| [<img style="border-radius: 10px;" src="https://avatars.githubusercontent.com/u/37443722?v=4" width=115><br><sub>Gabriel Ferreira</sub>](https://github.com/GabesSeven)
 | :---: 
