@@ -15,11 +15,14 @@
 
 You can [access the project's source code](https://github.com/GabesSeven/kernel-DOS-course-conclusion-work-Operating-Systems-II/) or [download it](https://github.com/GabesSeven/kernel-DOS-course-conclusion-work-Operating-Systems-II/archive/refs/heads/main.zip).
 
+<hr>
+
 ## ✔️ Techniques and technologies used
 
 - ``C``
 - ``DOS virtual machine``
 
+<hr>
 
 ## 🧑‍💻 Developer
 
